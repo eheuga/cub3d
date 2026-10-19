@@ -16,14 +16,16 @@
 
 # define BLOCK 1
 
-#include "mlx.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <math.h>
+# include "mlx.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include <math.h>
 
 
-typedef struct s_ray
+typedef struct	s_ray
 {
 
 	float dir_x;
@@ -38,9 +40,9 @@ typedef struct s_ray
 	float side_dist_y;
 	int side;
 	float wall_dist;
-}t_ray;
+}	t_ray;
 
-typedef struct s_player
+typedef struct	s_player
 {
 	float x;
 	float y;
@@ -57,23 +59,31 @@ typedef struct s_player
 	bool left_rotation;
 	bool right_rotation;
 
-}t_player;
+}	t_player;
 
-typedef struct s_game
+typedef struct	s_map
+{
+	char	*line;
+	char	**tab;
+	int		width;
+	int		height;
+	int		fd;
+}	t_map;
+
+typedef struct	s_game
 {
 	void *mlx;
 	void *win;
 	void *image;
 
-	char **map;
 	char *data;
 	int bpp;
 	int size_line;
 	int endif;
 
+	t_map	map;
 	t_player player;
-}t_game;
-
+}	t_game;
 
 void init_game(t_game *game);
 void init_player(t_player *player);
