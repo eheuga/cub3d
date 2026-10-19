@@ -1,0 +1,76 @@
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CONFIG~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+NAME		= cub3D
+OBJS_PATH	= ./objs
+
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror -g
+HEADER		= ./include/cub3d.h
+
+
+MLX_DIR		= ./minilibx-linux
+MLX			= $(MLX_DIR)/libmlx.a
+
+INCLUDES	= -I ./include -I $(MLX_DIR)
+LFLAGS		= -L $(MLX_DIR) -lmlx -lXext -lX11 -lm
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SOURCES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+SRCS		=	srcs/main.c \
+				srcs/init/init_game.c \
+				srcs/init/init_player.c \
+				srcs/init/init_ray.c \
+				srcs/dda/perform_dda.c \
+				srcs/draw/draw_loop.c \
+				srcs/draw/draw_background.c \
+				srcs/draw/draw_map.c \
+				srcs/draw/draw_square.c \
+				srcs/draw/draw_walls.c \
+				srcs/keys/key_press.c \
+				srcs/keys/key_release.c \
+				srcs/player/player_movement.c \
+				srcs/utils/close_prog.c \
+				srcs/utils/free_all.c \
+
+
+
+SRCS_BONUS	= srcs_bonus/main_bonus.c
+
+OBJS		= $(SRCS:%.c=$(OBJS_PATH)/%.o)
+TOTAL		:= $(words $(SRCS))
+DONE		= 0
+BAR_LEN		= 30
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~DIRECTIVES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+all: $(NAME)
+
+$(NAME): $(MLX) $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) -o $(NAME)
+	@printf "\r\033[K"
+	@echo "✅ cub3D successfully compiled!"
+
+
+
+$(MLX):
+	@$(MAKE) -C $(MLX_DIR) > /dev/null
+
+$(OBJS_PATH)/%.o: %.c $(HEADER)
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(eval DONE=$(shell expr $(DONE) + 1))
+	@printf "\r\033[K\033[1;32m[%-$(BAR_LEN)s]\033[0m %3d%%  %s" \
+		"$$(printf '#%.0s' $$(seq 1 $$(expr $(DONE) \* $(BAR_LEN) / $(TOTAL))))" \
+		"$$(expr $(DONE) \* 100 / $(TOTAL))" "$(notdir $<)"
+
+bonus:
+	@$(MAKE) --no-print-directory SRCS="$(SRCS_BONUS)" OBJS_PATH=./objs_bonus
+
+clean:
+	@rm -rf ./objs ./objs_bonus
+	@$(MAKE) --no-print-directory -C $(MLX_DIR) clean > /dev/null
+	@echo "✅ Object files successfully removed!"
+
+fclean: clean
+	@rm -f $(NAME)
+	@echo "✅ Executable successfully removed!"
+
+re: fclean all
+
+.PHONY: all bonus clean fclean re
