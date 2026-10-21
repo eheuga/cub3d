@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/20 11:40:59 by leonpouet         #+#    #+#             */
+/*   Updated: 2026/10/20 16:06:27 by leonpouet        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
-#define CUB3D_H
+# define CUB3D_H
 
 # define WIDTH 1280
 # define HEIGHT 720
@@ -16,6 +28,13 @@
 
 # define BLOCK 1
 
+# define NO 0
+# define SO 1
+# define WE 2
+# define EA 3
+
+# include "get_next_line.h"
+# include "libft.h"
 # include "mlx.h"
 # include <stdio.h>
 # include <unistd.h>
@@ -24,8 +43,7 @@
 # include <stdbool.h>
 # include <math.h>
 
-
-typedef struct	s_ray
+typedef struct s_ray
 {
 
 	float dir_x;
@@ -42,7 +60,7 @@ typedef struct	s_ray
 	float wall_dist;
 }	t_ray;
 
-typedef struct	s_player
+typedef struct s_player
 {
 	float x;
 	float y;
@@ -61,7 +79,7 @@ typedef struct	s_player
 
 }	t_player;
 
-typedef struct	s_map
+typedef struct s_map
 {
 	char	*line;
 	char	**tab;
@@ -70,17 +88,23 @@ typedef struct	s_map
 	int		fd;
 }	t_map;
 
-typedef struct	s_game
+typedef struct s_data
+{
+	int		floor_color;
+	int		sky_color;
+	char	*textures[4];
+}	t_data;
+
+typedef struct s_game
 {
 	void *mlx;
 	void *win;
 	void *image;
 
-	char *data;
 	int bpp;
 	int size_line;
 	int endif;
-
+	t_data	data;
 	t_map	map;
 	t_player player;
 }	t_game;

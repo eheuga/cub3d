@@ -60,6 +60,10 @@ int main()
 {
 	t_game game;
 
+	ft_bzero(&game, sizeof(t_game));
+	game.map.fd = -1;
+	game.data.floor_color = -1;
+	game.data.sky_color = -1;
 	init_game(&game);
 
 	game.data =  mlx_get_data_addr(game.image, &game.bpp, &game.size_line, &game.endif);
