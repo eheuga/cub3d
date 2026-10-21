@@ -6,7 +6,7 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 11:40:59 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/20 16:06:27 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/21 18:43:03 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,9 @@ typedef struct s_player
 
 typedef struct s_map
 {
+	char	*gnl_line;
 	char	*line;
-	char	**tab;
+	char	**array;
 	int		width;
 	int		height;
 	int		fd;
@@ -100,6 +101,7 @@ typedef struct s_game
 	void *mlx;
 	void *win;
 	void *image;
+	char *addr;
 
 	int bpp;
 	int size_line;
@@ -134,7 +136,15 @@ char **get_map(void);
 void put_pixel(int x, int y, int color, t_game *game);
 bool raycast(float px, float py, t_game *game);
 
+// PARSING
 
+int		correct_file(t_map *map, char *file);
+int		error_check(t_game *game);
+int		find_args(t_game *game, char *line);
+int		parsing(int ac, char **av, t_game *game);
+int		parse_map(t_game *game);
+int		parse_textures(t_game *game, char *line, int tex);
+int		parse_color(t_game *game, char *line, int tex);
 
 
 #endif

@@ -34,7 +34,7 @@ static void player_walk(t_player *player, float speed)
 
 void player_movement(t_player *player)
 {
-	float speed = 0.05;
+	float speed = 0.03;
 	float angle_speed = 0.03;
 
 	float dir_x_tmp = player->dir_x;

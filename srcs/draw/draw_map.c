@@ -2,7 +2,7 @@
 
 void draw_map(t_game *game)
 {
-	char **map = game->map;
+	char **map = game->map.array;
 	int color = 0x0000FF;
 	int y = 0;
 	int x;

@@ -10,8 +10,11 @@ HEADER		= ./include/cub3d.h
 MLX_DIR		= ./minilibx-linux
 MLX			= $(MLX_DIR)/libmlx.a
 
-INCLUDES	= -I ./include -I $(MLX_DIR)
-LFLAGS		= -L $(MLX_DIR) -lmlx -lXext -lX11 -lm
+LIBFT_DIR	= ./Libft
+LIBFT		= $(LIBFT_DIR)/libft.a
+
+INCLUDES	= -I ./include -I $(MLX_DIR) -I $(LIBFT_DIR)
+LFLAGS		= -L $(LIBFT_DIR) -lft -L $(MLX_DIR) -lmlx -lXext -lX11 -lm
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SOURCES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 SRCS		=	srcs/main.c \
 				srcs/init/init_game.c \
@@ -28,6 +31,12 @@ SRCS		=	srcs/main.c \
 				srcs/player/player_movement.c \
 				srcs/utils/close_prog.c \
 				srcs/utils/free_all.c \
+				srcs/parsing/parsing.c \
+				srcs/parsing/error_check.c \
+				srcs/parsing/find_args.c \
+				srcs/parsing/parse_map.c \
+				srcs/parsing/parse_textures.c \
+				srcs/parsing/parse_color.c
 
 
 
@@ -41,15 +50,18 @@ BAR_LEN		= 30
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~DIRECTIVES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 all: $(NAME)
 
-$(NAME): $(MLX) $(OBJS)
+$(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) -o $(NAME)
 	@printf "\r\033[K"
 	@echo "✅ cub3D successfully compiled!"
 
 
 
+$(LIBFT):
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
+
 $(MLX):
-	@$(MAKE) -C $(MLX_DIR) > /dev/null
+	@$(MAKE) --no-print-directory -C $(MLX_DIR) -f Makefile.mk INC=/usr/include > /dev/null 2>&1
 
 $(OBJS_PATH)/%.o: %.c $(HEADER)
 	@mkdir -p $(dir $@)
@@ -64,11 +76,13 @@ bonus:
 
 clean:
 	@rm -rf ./objs ./objs_bonus
-	@$(MAKE) --no-print-directory -C $(MLX_DIR) clean > /dev/null
+	@$(MAKE) --no-print-directory -C $(MLX_DIR) -f Makefile.mk clean > /dev/null
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) clean
 	@echo "✅ Object files successfully removed!"
 
 fclean: clean
 	@rm -f $(NAME)
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) fclean
 	@echo "✅ Executable successfully removed!"
 
 re: fclean all

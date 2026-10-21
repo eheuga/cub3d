@@ -6,127 +6,123 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 09:11:02 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/21 13:56:52 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/21 19:18:10 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int	color_loop(char *line, int *rgb)
+int	check_line(t_game *game, char *line)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
+	int max;
 
 	i = 0;
 	j = 0;
+	max = 0;
 	while (line[i])
 	{
-		if (line[i] == ',' && i > 0 && ft_isdigit(line[i - 1]) && j < 2)
-			j++;
-		else if (ft_isdigit(line[i]))
-			rgb[j] = rgb[j] * 10 + (line[i] - '0');
+		if (line[i] == '\n')
+		{
+			if (j > max)
+				max = j;
+			if (line[i + 1] == '\n')
+				return (0); // error empty line in tab
+			j = 0;
+		}
 		else
-			return (0); // error wrong color tuped
-		if (rgb[j] > 255)
-			return (0); // error wrong color typed
+			j++;
 		i++;
 	}
-	if (j == 2 && ft_isdigit(line[i - 1]))
-		return (1);
-	return (0);
-}
-
-int	parse_color(t_game *game, char *line, int tex)
-{
-	int		rgb[3];
-	char	*str;
-	int		check;
-
-	str = ft_strtrim(line + 1, " \n");
-	if (!str)
-		return (-1); // error malloc
-	ft_bzero(rgb, sizeof(int) * 3);
-	check = color_loop(str, rgb);
-	free(str);
-	if (!check)
-		return (-1); // error wrong color typed
-	if (tex == 'C')
-		game->data.sky_color = (rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
-	else if (tex == 'F')
-		game->data.floor_color = (rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
+	if (j > max)
+		max = j;
+	game->map.width = max;
 	return (1);
 }
 
-int	parse_textures(t_game *game, char *line, int tex)
+int	adjust_array(t_game *game)
 {
-	if (game->data.textures[tex] != NULL)
-		return (-1); // error doublon
-	game->data.textures[tex] = ft_strtrim(line + 2, " \n");
-	if (!game->data.textures[tex])
-		return (-1); // error malloc
-	if (ft_strchr(game->data.textures[tex], ' '))
-		return (-1); // error too many args
+	char	*newline;
+	int		i;
+
+	i = 0;
+	game->map.array = ft_split(game->map.line, '\n');
+	if (!game->map.array)
+		return (0); // error malloc
+	while (game->map.array[i])
+	{
+		newline = malloc (sizeof(char) *
+			(game->map.width + 1));
+		if (!newline)
+			return (0); // error malloc
+		ft_memset(newline, ' ', game->map.width);
+		ft_memcpy(newline, game->map.array[i],
+			ft_strlen(game->map.array[i]));
+		newline[game->map.width] = '\0';
+		free(game->map.array[i]);
+		game->map.array[i] = newline;
+		i++;
+	}
+	return (i);
+}
+
+int	parse_loop(t_game *game, int fd, char *readed_line)
+{
+	char	*tmp;
+	int		count;
+
+	tmp = NULL;
+	count = 0;
+	game->map.line = ft_strdup("");
+	if (!game->map.line)
+	{
+		free(readed_line);
+		return (0); // error malloc
+	}
+	while (readed_line)
+	{
+		game->map.gnl_line = readed_line;
+		if (count < 6)
+			count += find_args(game, readed_line);
+		else if (count == 6)
+		{
+			tmp = ft_strjoin(game->map.line, readed_line);
+			if (!tmp)
+			{
+				free(readed_line);
+				return (0); // error malloc
+			}
+			free(game->map.line);
+			game->map.line = tmp;
+		}
+		free(readed_line);
+		game->map.gnl_line = NULL;
+		readed_line = get_next_line(fd);
+	}
 	return (1);
 }
 
-int	find_args(t_game *game, char *line)
-{
-	if (ft_strnstr(line, "NO ", 3))
-		return (parse_textures(game, line, NO));
-	else if (ft_strnstr(line, "SO ", 3))
-		return (parse_textures(game, line, SO));
-	else if (ft_strnstr(line, "WE ", 3))
-		return (parse_textures(game, line, WE));
-	else if (ft_strnstr(line, "EA ", 3))
-		return (parse_textures(game, line, EA));
-	else if (ft_strnstr(line, "F ", 2))
-		return (parse_color(game, line, 'F'));
-	else if (ft_strnstr(line, "C ", 2))
-		return (parse_color(game, line, 'C'));
-	return (0);
-}
-
-void	parse_map(int fd, t_game *game)
+int	parse_map(t_game *game)
 {
 	char	*tmp;
 	char	*readed_line;
 
 	tmp = NULL;
-	readed_line = get_next_line(fd);
+	readed_line = get_next_line(game->map.fd);
 	if (!readed_line)
-		return ;
-	game->map.line = readed_line;
-	while (readed_line)
-	{
-		find_args(game, readed_line);
-		free(readed_line);
-		readed_line = get_next_line(fd);
-	}
-}
-
-
-void	parse_map(int fd, t_map *map)
-{
-	char	*tmp;
-	char	*readed_line;
-
-	tmp = NULL;
-	readed_line = get_next_line(fd);
-	if (!readed_line)
-		return ;
-	map->width = ft_strlen(readed_line) - 1;
-	map->height = 0;
-	map->line = ft_strdup("");
-	while (readed_line)
-	{
-		tmp = ft_strjoin(map->line, readed_line);
-		if (!tmp)
-			return ;
-		free(map->line);
-		free(readed_line);
-		map->line = tmp;
-		readed_line = get_next_line(fd);
-		map->height++;
-	}
-	map->tab = ft_split(map->line, '\n');
+		return (0);
+	if (!parse_loop(game, game->map.fd, readed_line))
+		return (0);
+	tmp = ft_strtrim(game->map.line, "\n");
+	if (!tmp)
+		return (0); // error malloc
+	free(game->map.line);
+	game->map.line = tmp;
+	if (!check_line(game, game->map.line))
+		return (0);
+	game->map.height = adjust_array(game);
+	if (!game->map.height)
+		return (0);
+	return (1);
 }

@@ -24,16 +24,12 @@ int	correct_file(t_map *map, char *file)
 	map->fd = open(file, O_RDONLY);
 	if (map->fd < 0)
 		return (0);
-
+	return (1);
 }
 
 int	error_check(t_game *game)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-
+	(void)game;
 	return (1);
 }
 
