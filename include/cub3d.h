@@ -6,7 +6,7 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 11:40:59 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/21 18:43:03 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/22 11:51:32 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,13 @@ int		parsing(int ac, char **av, t_game *game);
 int		parse_map(t_game *game);
 int		parse_textures(t_game *game, char *line, int tex);
 int		parse_color(t_game *game, char *line, int tex);
+int		player_plane(t_game *game, char c);
+int		player_direction(t_game *game, char c);
+int		parse_player(t_game *game, int pos_y, int pos_x);
+int		check_around(t_game *game, int pos_y, int pos_x);
+int		valid_char(char c);
+int		map_check(t_game *game);
+
 
 
 #endif

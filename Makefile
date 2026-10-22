@@ -32,11 +32,13 @@ SRCS		=	srcs/main.c \
 				srcs/utils/close_prog.c \
 				srcs/utils/free_all.c \
 				srcs/parsing/parsing.c \
-				srcs/parsing/error_check.c \
+				srcs/parsing/parsing_utils.c \
+				srcs/parsing/map_check.c \
 				srcs/parsing/find_args.c \
 				srcs/parsing/parse_map.c \
 				srcs/parsing/parse_textures.c \
-				srcs/parsing/parse_color.c
+				srcs/parsing/parse_color.c \
+				srcs/parsing/parse_player.c
 
 
 

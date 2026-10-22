@@ -12,6 +12,7 @@ void free_all(t_game *game)
 	}
 	free(game->map.array);
 	free(game->map.line);
+	free(game->map.gnl_line);
 	i = 0;
 	while(i < 4)
 	{

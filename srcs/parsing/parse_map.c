@@ -6,7 +6,7 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 09:11:02 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/21 19:18:10 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/21 20:08:21 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	check_line(t_game *game, char *line)
 {
-	int i;
-	int j;
-	int max;
+	int	i;
+	int	j;
+	int	max;
 
 	i = 0;
 	j = 0;
@@ -52,8 +52,7 @@ int	adjust_array(t_game *game)
 		return (0); // error malloc
 	while (game->map.array[i])
 	{
-		newline = malloc (sizeof(char) *
-			(game->map.width + 1));
+		newline = malloc (sizeof(char) * (game->map.width + 1));
 		if (!newline)
 			return (0); // error malloc
 		ft_memset(newline, ' ', game->map.width);
@@ -67,7 +66,7 @@ int	adjust_array(t_game *game)
 	return (i);
 }
 
-int	parse_loop(t_game *game, int fd, char *readed_line)
+int	parse_loop(t_game *game, int fd)
 {
 	char	*tmp;
 	int		count;
@@ -76,29 +75,21 @@ int	parse_loop(t_game *game, int fd, char *readed_line)
 	count = 0;
 	game->map.line = ft_strdup("");
 	if (!game->map.line)
-	{
-		free(readed_line);
 		return (0); // error malloc
-	}
-	while (readed_line)
+	while (game->map.gnl_line)
 	{
-		game->map.gnl_line = readed_line;
 		if (count < 6)
-			count += find_args(game, readed_line);
+			count += find_args(game, game->map.gnl_line);
 		else if (count == 6)
 		{
-			tmp = ft_strjoin(game->map.line, readed_line);
+			tmp = ft_strjoin(game->map.line, game->map.gnl_line);
 			if (!tmp)
-			{
-				free(readed_line);
 				return (0); // error malloc
-			}
 			free(game->map.line);
 			game->map.line = tmp;
 		}
-		free(readed_line);
-		game->map.gnl_line = NULL;
-		readed_line = get_next_line(fd);
+		free(game->map.gnl_line);
+		game->map.gnl_line = get_next_line(fd);
 	}
 	return (1);
 }
@@ -106,13 +97,12 @@ int	parse_loop(t_game *game, int fd, char *readed_line)
 int	parse_map(t_game *game)
 {
 	char	*tmp;
-	char	*readed_line;
 
 	tmp = NULL;
-	readed_line = get_next_line(game->map.fd);
-	if (!readed_line)
+	game->map.gnl_line = get_next_line(game->map.fd);
+	if (!game->map.gnl_line)
 		return (0);
-	if (!parse_loop(game, game->map.fd, readed_line))
+	if (!parse_loop(game, game->map.fd))
 		return (0);
 	tmp = ft_strtrim(game->map.line, "\n");
 	if (!tmp)

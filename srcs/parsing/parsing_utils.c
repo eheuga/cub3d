@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_check.c                                      :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 11:27:35 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/20 13:36:47 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/21 19:49:13 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,3 @@ int	correct_file(t_map *map, char *file)
 		return (0);
 	return (1);
 }
-
-int	error_check(t_game *game)
-{
-	(void)game;
-	return (1);
-}
-
