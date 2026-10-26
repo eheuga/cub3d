@@ -57,8 +57,8 @@ static void player_walk(t_game *game, float speed)
 
 void player_movement(t_game *game)
 {
-	float speed = 0.03;
-	float angle_speed = 0.03;
+	float speed = 0.025;
+	float angle_speed = 0.012;
 	float dir_x_tmp = PLAYER.dir_x;
 	float dir_y_tmp = PLAYER.dir_y;
 	float plane_x_tmp = PLAYER.plane_x;

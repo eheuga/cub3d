@@ -24,8 +24,6 @@ SRCS		=	srcs/main.c \
 				srcs/dda/perform_dda.c \
 				srcs/draw/draw_loop.c \
 				srcs/draw/draw_background.c \
-				srcs/draw/draw_map.c \
-				srcs/draw/draw_square.c \
 				srcs/draw/draw_walls.c \
 				srcs/keys/key_press.c \
 				srcs/keys/key_release.c \
