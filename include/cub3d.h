@@ -6,7 +6,7 @@
 /*   By: emheuga <emheuga@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 11:40:59 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/26 14:13:42 by emheuga          ###   ########.fr       */
+/*   Updated: 2026/10/26 16:20:04 by emheuga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void draw_background(t_game *game);
 void draw_map(t_game *game);
 void draw_square(int x, int y, int size, int color, t_game *game);
 
-void player_movement(t_player *player);
+void player_movement(t_game *game);
 
 float get_distance(float x,  float y, float ray_x, float ray_y);
 int close_prog(t_game *game);

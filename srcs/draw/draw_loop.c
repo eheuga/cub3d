@@ -2,14 +2,10 @@
 
 int draw_loop(t_game *game)
 {
-	t_player *player = &game->player;
 	t_ray ray;
 
-	player_movement(player);
+	player_movement(game);
 	draw_background(game);
-	// draw_square(player->x, player->y, 5, 0x00ffff, game);
-	// draw_map(game);
-
 
 	int i  = 0;
 
