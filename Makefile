@@ -19,6 +19,7 @@ LFLAGS		= -L $(LIBFT_DIR) -lft -L $(MLX_DIR) -lmlx -lXext -lX11 -lm
 SRCS		=	srcs/main.c \
 				srcs/init/init_game.c \
 				srcs/init/init_player.c \
+				srcs/init/init_textures.c \
 				srcs/init/init_ray.c \
 				srcs/dda/perform_dda.c \
 				srcs/draw/draw_loop.c \

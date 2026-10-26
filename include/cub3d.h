@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
+/*   By: emheuga <emheuga@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 11:40:59 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/22 11:51:32 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/26 14:13:42 by emheuga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,23 @@ typedef struct s_map
 	int		fd;
 }	t_map;
 
+typedef struct	s_texture
+{
+	int height;
+	int width;
+	char *buff;
+	void *img;
+	int bpp;
+	int size_line;
+	int endian;
+}	t_texture;
+
 typedef struct s_data
 {
 	int		floor_color;
 	int		sky_color;
 	char	*textures[4];
+	t_texture img[4];
 }	t_data;
 
 typedef struct s_game
@@ -111,7 +123,9 @@ typedef struct s_game
 	t_player player;
 }	t_game;
 
+
 void init_game(t_game *game);
+void init_textures(t_game *game);
 void init_player(t_player *player);
 void init_ray(t_game *game, t_ray *ray, int i);
 
