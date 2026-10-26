@@ -6,7 +6,7 @@
 /*   By: emheuga <emheuga@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 11:40:59 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/26 16:20:04 by emheuga          ###   ########.fr       */
+/*   Updated: 2026/10/26 16:32:57 by emheuga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void player_movement(t_game *game);
 float get_distance(float x,  float y, float ray_x, float ray_y);
 int close_prog(t_game *game);
 void free_all(t_game *game);
+void put_pixel(int x, int y, int color, t_game *game);
 
 char **get_map(void);
 void put_pixel(int x, int y, int color, t_game *game);

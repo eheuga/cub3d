@@ -11,17 +11,6 @@ float get_distance(float x,  float y, float ray_x, float ray_y)
 }
 
 
-void put_pixel(int x, int y, int color, t_game *game)
-{
-	int	index;
-
-	if(x >= WIDTH || y >= HEIGHT || x < 0 || y < 0)
-		return ;
-	index = y * game->size_line + x * game->bpp / 8;
-	game->addr[index] = color & 0xFF;
-	game->addr[index + 1] = (color >> 8) & 0xFF;
-	game->addr[index + 2] = (color >> 16) & 0xFF;
-}
 
 
 

@@ -32,6 +32,7 @@ SRCS		=	srcs/main.c \
 				srcs/player/player_movement.c \
 				srcs/utils/close_prog.c \
 				srcs/utils/free_all.c \
+				srcs/utils/put_pixels.c \
 				srcs/parsing/parsing.c \
 				srcs/parsing/parsing_utils.c \
 				srcs/parsing/map_check.c \
