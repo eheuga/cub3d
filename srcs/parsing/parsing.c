@@ -6,7 +6,7 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/19 14:15:12 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/22 12:25:46 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/26 10:57:28 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ int parsing(int ac, char **av, t_game *game)
 	if (!check)
 		return (0);
 	check = parse_map(game);
+	if (!check)
+		return (0);
 	close(game->map.fd);
 	game->map.fd = -1;
 	check = map_check(game);
 	if (!check)
 		return (0);
-
 	return (1);
 }

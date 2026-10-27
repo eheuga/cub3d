@@ -28,7 +28,7 @@ int	check_line(t_game *game, char *line)
 			if (j > max)
 				max = j;
 			if (line[i + 1] == '\n')
-				return (0); // error empty line in tab
+				return (error_message(ERR_EMPTY_LINE, NULL));
 			j = 0;
 		}
 		else
@@ -49,12 +49,12 @@ int	adjust_array(t_game *game)
 	i = 0;
 	game->map.array = ft_split(game->map.line, '\n');
 	if (!game->map.array)
-		return (0); // error malloc
+		return (error_message(ERR_MALLOC, NULL));
 	while (game->map.array[i])
 	{
 		newline = malloc (sizeof(char) * (game->map.width + 1));
 		if (!newline)
-			return (0); // error malloc
+			return (error_message(ERR_MALLOC, NULL));
 		ft_memset(newline, ' ', game->map.width);
 		ft_memcpy(newline, game->map.array[i],
 			ft_strlen(game->map.array[i]));
@@ -75,7 +75,7 @@ int	parse_loop(t_game *game, int fd)
 	count = 0;
 	game->map.line = ft_strdup("");
 	if (!game->map.line)
-		return (0); // error malloc
+		return (error_message(ERR_MALLOC, NULL));
 	while (game->map.gnl_line)
 	{
 		if (count < 6)
@@ -84,7 +84,7 @@ int	parse_loop(t_game *game, int fd)
 		{
 			tmp = ft_strjoin(game->map.line, game->map.gnl_line);
 			if (!tmp)
-				return (0); // error malloc
+				return (error_message(ERR_MALLOC, NULL));
 			free(game->map.line);
 			game->map.line = tmp;
 		}
@@ -106,7 +106,7 @@ int	parse_map(t_game *game)
 		return (0);
 	tmp = ft_strtrim(game->map.line, "\n");
 	if (!tmp)
-		return (0); // error malloc
+		return (error_message(ERR_MALLOC, NULL));
 	free(game->map.line);
 	game->map.line = tmp;
 	if (!check_line(game, game->map.line))

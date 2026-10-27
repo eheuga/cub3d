@@ -6,7 +6,7 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 11:40:59 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/22 11:51:32 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/26 12:41:44 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,27 @@
 # define WE 2
 # define EA 3
 
+# define ERR_OPEN			1
+# define ERR_READ			2
+# define ERR_MALLOC			3
+
+# define ERR_ARGS			10
+# define ERR_EXTENSION		11
+
+# define ERR_UNKNOWN_ID		20
+# define ERR_DUP_TEXTURE	21
+# define ERR_DUP_COLOR		22
+# define ERR_TEXTURE_PATH	23
+# define ERR_COLOR			24
+# define ERR_MISSING_ELEM	25
+
+# define ERR_NO_MAP			30
+# define ERR_EMPTY_LINE		31
+# define ERR_INVALID_CHAR	32
+# define ERR_NO_PLAYER		33
+# define ERR_MANY_PLAYERS	34
+# define ERR_MAP_OPEN		35
+
 # include "get_next_line.h"
 # include "libft.h"
 # include "mlx.h"
@@ -42,6 +63,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <math.h>
+# include <errno.h>
 
 typedef struct s_ray
 {
@@ -129,8 +151,12 @@ void draw_square(int x, int y, int size, int color, t_game *game);
 void player_movement(t_player *player);
 
 float get_distance(float x,  float y, float ray_x, float ray_y);
-int close_prog(t_game *game);
-void free_all(t_game *game);
+
+// UTILS
+
+int		close_prog(t_game *game);
+void	free_all(t_game *game);
+int		error_message(int error, char *file);
 
 char **get_map(void);
 void put_pixel(int x, int y, int color, t_game *game);

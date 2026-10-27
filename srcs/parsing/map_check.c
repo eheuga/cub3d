@@ -56,7 +56,7 @@ int	map_check(t_game *game)
 				return (0); // player uncomplete or wrong char
 			play += ret;
 			if (game->map.array[i][j] == '0' && !check_around(game, i, j))
-				return (0); // map uncomplete
+				return (error_message(ERR_MAP_OPEN, NULL));
 			j++;
 		}
 		i++;

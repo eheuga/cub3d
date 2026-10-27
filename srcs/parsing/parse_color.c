@@ -6,7 +6,7 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 16:49:04 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/21 16:50:02 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/26 10:53:26 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ int	parse_color(t_game *game, char *line, int tex)
 	free(str);
 	if (!check)
 		return (-1); // error wrong color typed
-	if (tex == 'C')
+	if (tex == 'C' && game->data.sky_color == -1)
 		game->data.sky_color = (rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
-	else if (tex == 'F')
+	else if (tex == 'F' && game->data.floor_color == -1)
 		game->data.floor_color = (rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
+	else
+		return (-1); // double color argument
 	return (1);
 }
