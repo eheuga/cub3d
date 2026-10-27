@@ -2,7 +2,6 @@
 
 void perform_dda(t_game *game, t_ray *ray)
 {
-
 	while(game->map.array[ray->map_y][ray->map_x] != '1')
 	{
 		if(ray->side_dist_x < ray->side_dist_y)

@@ -29,6 +29,8 @@ void free_all(t_game *game)
 	while(i < 4)
 	{
 		free(game->data.textures[i]);
+		if (game->data.img[i].img)
+			mlx_destroy_image(game->mlx, game->data.img[i].img);
 		i++;
 	}
 	free(game->mlx);

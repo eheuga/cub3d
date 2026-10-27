@@ -11,37 +11,6 @@ float get_distance(float x,  float y, float ray_x, float ray_y)
 }
 
 
-void put_pixel(int x, int y, int color, t_game *game)
-{
-	int	index;
-
-	if(x >= WIDTH || y >= HEIGHT || x < 0 || y < 0)
-		return ;
-	index = y * game->size_line + x * game->bpp / 8;
-	game->addr[index] = color & 0xFF;
-	game->addr[index + 1] = (color >> 8) & 0xFF;
-	game->addr[index + 2] = (color >> 16) & 0xFF;
-}
-
-// char **get_map(void)
-// {
-// 	char **map = malloc(sizeof(char *) * 12);
-
-// 	map[0] = "111111111111111111111";
-// 	map[1] = "10000000001000100001";
-// 	map[2] = "10000000001000000001";
-// 	map[3] = "10000100000000100001";
-// 	map[4] = "10000000000000000001";
-// 	map[5] = "10000000000000000001";
-// 	map[6] = "10001100000000000001";
-// 	map[7] = "10000000100000100001";
-// 	map[8] = "10000000000000000001";
-// 	map[9] = "10000000000000000001";
-// 	map[10] = "11111111111111111111";
-// 	map[11] = NULL;
-// 	return map;
-
-// }
 
 
 

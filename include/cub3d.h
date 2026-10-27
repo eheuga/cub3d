@@ -6,7 +6,7 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 11:40:59 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/26 12:41:44 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/27 10:40:55 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,23 @@ typedef struct s_map
 	int		fd;
 }	t_map;
 
+typedef struct	s_texture
+{
+	int height;
+	int width;
+	char *buff;
+	void *img;
+	int bpp;
+	int size_line;
+	int endian;
+}	t_texture;
+
 typedef struct s_data
 {
 	int		floor_color;
 	int		sky_color;
 	char	*textures[4];
+	t_texture img[4];
 }	t_data;
 
 typedef struct s_game
@@ -133,7 +145,9 @@ typedef struct s_game
 	t_player player;
 }	t_game;
 
+
 void init_game(t_game *game);
+void init_textures(t_game *game);
 void init_player(t_player *player);
 void init_ray(t_game *game, t_ray *ray, int i);
 
@@ -148,7 +162,7 @@ void draw_background(t_game *game);
 void draw_map(t_game *game);
 void draw_square(int x, int y, int size, int color, t_game *game);
 
-void player_movement(t_player *player);
+void player_movement(t_game *game);
 
 float get_distance(float x,  float y, float ray_x, float ray_y);
 
