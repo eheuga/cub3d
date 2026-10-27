@@ -46,6 +46,8 @@
 # define ERR_TEXTURE_PATH	23
 # define ERR_COLOR			24
 # define ERR_MISSING_ELEM	25
+# define ERR_COLOR_RANGE	26
+# define ERR_COLOR_CHAR		27
 
 # define ERR_NO_MAP			30
 # define ERR_EMPTY_LINE		31
@@ -180,6 +182,7 @@ bool raycast(float px, float py, t_game *game);
 
 int		correct_file(t_map *map, char *file);
 int		error_check(t_game *game);
+int		is_id(char *line, char *id);
 int		find_args(t_game *game, char *line);
 int		parsing(int ac, char **av, t_game *game);
 int		parse_map(t_game *game);
@@ -190,6 +193,7 @@ int		player_direction(t_game *game, char c);
 int		parse_player(t_game *game, int pos_y, int pos_x);
 int		check_around(t_game *game, int pos_y, int pos_x);
 int		valid_char(char c);
+int		map_check_loop(t_game *game, int *play);
 int		map_check(t_game *game);
 
 

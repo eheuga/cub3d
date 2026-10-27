@@ -6,7 +6,7 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 11:56:47 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/26 12:40:49 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/27 10:54:31 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	system_error(int error, char *file)
 {
 	int	err;
+	(void)error;
 
 	err = errno;
 	ft_putstr_fd("Error\n", 2);
@@ -22,6 +23,7 @@ void	system_error(int error, char *file)
 		ft_putstr_fd(file, 2);
 	else
 		ft_putstr_fd("memory allocation failed", 2);
+	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(err), 2);
 	ft_putstr_fd("\n", 2);
 }
@@ -47,9 +49,13 @@ void	header_error(int error)
 	else if (error == ERR_TEXTURE_PATH)
 		ft_putstr_fd("invalid texture path\n", 2);
 	else if (error == ERR_COLOR)
-		ft_putstr_fd("invalid color, expected R,G,B between 0 and 255\n", 2);
+		ft_putstr_fd("invalid color format, expected R,G,B\n", 2);
 	else if (error == ERR_MISSING_ELEM)
 		ft_putstr_fd("missing texture or color before the map\n", 2);
+	else if (error == ERR_COLOR_RANGE)
+		ft_putstr_fd("color value must be between 0 and 255\n", 2);
+	else if (error == ERR_COLOR_CHAR)
+		ft_putstr_fd("invalid character in color\n", 2);
 }
 
 void	map_error(int error)
@@ -79,5 +85,11 @@ int	error_message(int error, char *file)
 		header_error(error);
 	else if (error < 40)
 		map_error(error);
+	if (error >= 20 && file && file[0])
+	{
+		ft_putstr_fd(file, 2);
+		if (file[ft_strlen(file) - 1] != '\n')
+			ft_putstr_fd("\n", 2);
+	}
 	return (0);
 }

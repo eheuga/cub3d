@@ -6,7 +6,7 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 09:11:02 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/21 20:08:21 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/27 13:47:36 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,28 +66,42 @@ int	adjust_array(t_game *game)
 	return (i);
 }
 
-int	parse_loop(t_game *game, int fd)
+int	parse_arg_loop(t_game *game, int fd)
 {
-	char	*tmp;
-	int		count;
+	int	check;
+	int	count;
 
-	tmp = NULL;
 	count = 0;
 	game->map.line = ft_strdup("");
 	if (!game->map.line)
 		return (error_message(ERR_MALLOC, NULL));
+	while (game->map.gnl_line && count != 6)
+	{
+		check = find_args(game, game->map.gnl_line);
+		if (check == 0)
+			return (0);
+		else if (check == 1)
+			count += 1;
+		free(game->map.gnl_line);
+		game->map.gnl_line = get_next_line(fd);
+	}
+	if (count < 6)
+		return (error_message(ERR_MISSING_ELEM, NULL));
+	return (1);
+}
+
+int	parse_map_loop(t_game *game, int fd)
+{
+	char	*tmp;
+
+	tmp = NULL;
 	while (game->map.gnl_line)
 	{
-		if (count < 6)
-			count += find_args(game, game->map.gnl_line);
-		else if (count == 6)
-		{
-			tmp = ft_strjoin(game->map.line, game->map.gnl_line);
-			if (!tmp)
-				return (error_message(ERR_MALLOC, NULL));
-			free(game->map.line);
-			game->map.line = tmp;
-		}
+		tmp = ft_strjoin(game->map.line, game->map.gnl_line);
+		if (!tmp)
+			return (error_message(ERR_MALLOC, NULL));
+		free(game->map.line);
+		game->map.line = tmp;
 		free(game->map.gnl_line);
 		game->map.gnl_line = get_next_line(fd);
 	}
@@ -101,14 +115,18 @@ int	parse_map(t_game *game)
 	tmp = NULL;
 	game->map.gnl_line = get_next_line(game->map.fd);
 	if (!game->map.gnl_line)
+		return (error_message(ERR_NO_MAP, NULL));
+	if (!parse_arg_loop(game, game->map.fd))
 		return (0);
-	if (!parse_loop(game, game->map.fd))
+	if (!parse_map_loop(game, game->map.fd))
 		return (0);
 	tmp = ft_strtrim(game->map.line, "\n");
 	if (!tmp)
 		return (error_message(ERR_MALLOC, NULL));
 	free(game->map.line);
 	game->map.line = tmp;
+	if (game->map.line[0] == '\0')
+		return (error_message(ERR_NO_MAP, NULL));
 	if (!check_line(game, game->map.line))
 		return (0);
 	game->map.height = adjust_array(game);

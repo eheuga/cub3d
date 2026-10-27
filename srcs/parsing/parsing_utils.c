@@ -18,11 +18,11 @@ int	correct_file(t_map *map, char *file)
 
 	tmp = ft_strnstr(file, ".cub", ft_strlen(file));
 	if (!tmp || ft_strlen(tmp) != 4)
-		return (0);
+		return (error_message(ERR_EXTENSION, NULL));
 	if (ft_strlen(file) <= 4)
-		return (0);
+		return (error_message(ERR_EXTENSION, NULL));
 	map->fd = open(file, O_RDONLY);
 	if (map->fd < 0)
-		return (0);
+		return (error_message(ERR_OPEN, file));
 	return (1);
 }

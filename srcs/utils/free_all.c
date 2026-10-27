@@ -6,7 +6,7 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 11:57:30 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/26 11:57:33 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/27 13:54:15 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ void free_all(t_game *game)
 		i++;
 	}
 	free(game->mlx);
+	if (game->map.fd >= 0)
+		close(game->map.fd);
 	return ;
 }

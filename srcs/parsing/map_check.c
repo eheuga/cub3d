@@ -6,7 +6,7 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 19:49:51 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/22 12:08:41 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/27 14:40:31 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,40 +28,60 @@ int	check_around(t_game *game, int pos_y, int pos_x)
 	return (1);
 }
 
-int	valid_char(char c)
+int	is_player(char c)
 {
-	if (c == '0' || c == '1' || c == ' ')
-		return (1);
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		return (1);
 	return (0);
 }
 
-int	map_check(t_game *game)
+int	valid_char(char c)
+{
+	if (c == '0' || c == '1' || c == ' ')
+		return (1);
+	if (is_player(c))
+		return (1);
+	return (0);
+}
+
+int	map_check_loop(t_game *game, int *play)
 {
 	int	i;
 	int	j;
-	int	play;
-	int	ret;
 
 	i = 0;
-	play = 0;
 	while (game->map.array[i])
 	{
 		j = 0;
 		while (game->map.array[i][j])
 		{
-			ret = parse_player(game, i, j);
-			if (ret == -1 || !valid_char(game->map.array[i][j]))
-				return (0); // player uncomplete or wrong char
-			play += ret;
+			if (is_player(game->map.array[i][j]))
+			{
+				if (!parse_player(game, i, j))
+					return (0);
+				*play += 1;
+			}
+			if (!valid_char(game->map.array[i][j]))
+				return (error_message(ERR_INVALID_CHAR, game->map.array[i]));
 			if (game->map.array[i][j] == '0' && !check_around(game, i, j))
-				return (error_message(ERR_MAP_OPEN, NULL));
+				return (error_message(ERR_MAP_OPEN, game->map.array[i]));
 			j++;
 		}
 		i++;
 	}
-	if (play != 1)
-		return (0); // wrong number of player
+	return (1);
+}
+
+int	map_check(t_game *game)
+{
+	int	play;
+
+	play = 0;
+	if (!map_check_loop(game, &play))
+		return (0);
+	if (play == 0)
+		return (error_message(ERR_NO_PLAYER, NULL));
+	if (play > 1)
+		return (error_message(ERR_MANY_PLAYERS, NULL));
 	return (1);
 }

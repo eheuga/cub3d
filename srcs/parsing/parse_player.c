@@ -6,7 +6,7 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/22 11:31:42 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/22 12:17:35 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/27 12:06:47 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	parse_player(t_game *game, int y, int x)
 	if (player_direction(game, game->map.array[y][x]))
 	{
 		if (!check_around(game, y, x))
-			return (-1); // map uncomplete
+			return (error_message(ERR_MAP_OPEN, game->map.array[y]));
 		game->player.x = x + 0.5;
 		game->player.y = y + 0.5;
 		game->map.array[y][x] = '0';

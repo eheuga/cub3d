@@ -31,6 +31,7 @@ SRCS		=	srcs/main.c \
 				srcs/utils/close_prog.c \
 				srcs/utils/free_all.c \
 				srcs/utils/put_pixels.c \
+				srcs/utils/error_message.c \
 				srcs/parsing/parsing.c \
 				srcs/parsing/parsing_utils.c \
 				srcs/parsing/map_check.c \
