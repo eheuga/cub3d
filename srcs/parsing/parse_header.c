@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_args.c                                        :+:      :+:    :+:   */
+/*   parse_header.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 16:45:04 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/27 16:02:04 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/28 12:38:41 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int	unknow_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != ' ' && !(line[i] >= 9 && line[i] <= 13))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	is_id(char *line, char *id)
+static int	is_id(char *line, char *id)
 {
 	int	len;
 
@@ -59,7 +45,31 @@ int	find_args(t_game *game, char *line)
 		return (parse_color(game, line + i, 'C'));
 	else if (line[i] == '1' || line[i] == '0')
 		return (error_message(ERR_MISSING_ELEM, NULL));
-	else if (!unknow_line(line))
+	else if (!is_blank_line(line))
 		return (error_message(ERR_UNKNOWN_ID, line));
 	return (-1);
+}
+
+int	parse_arg_loop(t_game *game, int fd)
+{
+	int	check;
+	int	count;
+
+	count = 0;
+	game->map.line = ft_strdup("");
+	if (!game->map.line)
+		return (error_message(ERR_MALLOC, NULL));
+	while (game->map.gnl_line && count != 6)
+	{
+		check = find_args(game, game->map.gnl_line);
+		if (check == 0)
+			return (0);
+		else if (check == 1)
+			count += 1;
+		free(game->map.gnl_line);
+		game->map.gnl_line = get_next_line(fd);
+	}
+	if (count < 6)
+		return (error_message(ERR_MISSING_ELEM, NULL));
+	return (1);
 }

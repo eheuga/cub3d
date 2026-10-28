@@ -24,7 +24,6 @@ bool raycast(float px, float py, t_game *game)
 
 }
 
-
 int main(int ac, char **av)
 {
 	t_game game;

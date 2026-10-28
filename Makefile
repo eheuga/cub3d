@@ -33,13 +33,15 @@ SRCS		=	srcs/main.c \
 				srcs/utils/put_pixels.c \
 				srcs/utils/error_message.c \
 				srcs/parsing/parsing.c \
-				srcs/parsing/parsing_utils.c \
-				srcs/parsing/map_check.c \
-				srcs/parsing/find_args.c \
-				srcs/parsing/parse_map.c \
+				srcs/parsing/check_file.c \
+				srcs/parsing/read_file.c \
+				srcs/parsing/parse_header.c \
 				srcs/parsing/parse_textures.c \
 				srcs/parsing/parse_color.c \
-				srcs/parsing/parse_player.c
+				srcs/parsing/parse_map.c \
+				srcs/parsing/map_check.c \
+				srcs/parsing/parse_player.c \
+				srcs/parsing/parsing_utils.c
 
 
 

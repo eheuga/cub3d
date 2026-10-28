@@ -12,7 +12,7 @@
 
 #include "../../include/cub3d.h"
 
-int	player_plane(t_game *game, char c)
+static int	player_plane(t_game *game, char c)
 {
 	if (c == 'N' || c == 'S')
 	{
@@ -35,7 +35,7 @@ int	player_plane(t_game *game, char c)
 	return (0);
 }
 
-int	player_direction(t_game *game, char c)
+static int	player_direction(t_game *game, char c)
 {
 	if (c == 'N' || c == 'S')
 	{

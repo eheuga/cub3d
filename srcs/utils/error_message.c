@@ -6,16 +6,15 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 11:56:47 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/27 10:54:31 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/28 12:03:49 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	system_error(int error, char *file)
+static void	system_error(char *file)
 {
 	int	err;
-	(void)error;
 
 	err = errno;
 	ft_putstr_fd("Error\n", 2);
@@ -28,7 +27,7 @@ void	system_error(int error, char *file)
 	ft_putstr_fd("\n", 2);
 }
 
-void	arg_error(int error)
+static void	arg_error(int error)
 {
 	ft_putstr_fd("Error\n", 2);
 	if (error == ERR_ARGS)
@@ -37,7 +36,7 @@ void	arg_error(int error)
 		ft_putstr_fd("map file must have a .cub extension\n", 2);
 }
 
-void	header_error(int error)
+static void	header_error(int error)
 {
 	ft_putstr_fd("Error\n", 2);
 	if (error == ERR_UNKNOWN_ID)
@@ -58,7 +57,7 @@ void	header_error(int error)
 		ft_putstr_fd("invalid character in color\n", 2);
 }
 
-void	map_error(int error)
+static void	map_error(int error)
 {
 	ft_putstr_fd("Error\n", 2);
 	if (error == ERR_NO_MAP)
@@ -78,7 +77,7 @@ void	map_error(int error)
 int	error_message(int error, char *file)
 {
 	if (error < 10)
-		system_error(error, file);
+		system_error(file);
 	else if (error < 20)
 		arg_error(error);
 	else if (error < 30)

@@ -180,21 +180,22 @@ bool raycast(float px, float py, t_game *game);
 
 // PARSING
 
-int		correct_file(t_map *map, char *file);
-int		error_check(t_game *game);
-int		is_id(char *line, char *id);
-int		find_args(t_game *game, char *line);
 int		parsing(int ac, char **av, t_game *game);
-int		parse_map(t_game *game);
+int		correct_file(t_map *map, char *file);
+int		read_file(t_game *game);
+int		parse_arg_loop(t_game *game, int fd);
+int		find_args(t_game *game, char *line);
 int		parse_textures(t_game *game, char *line, int tex);
 int		parse_color(t_game *game, char *line, int tex);
-int		player_plane(t_game *game, char c);
-int		player_direction(t_game *game, char c);
-int		parse_player(t_game *game, int pos_y, int pos_x);
-int		check_around(t_game *game, int pos_y, int pos_x);
-int		valid_char(char c);
-int		map_check_loop(t_game *game, int *play);
+int		parse_map_loop(t_game *game, int fd);
+int		check_line(t_game *game, char *line);
+int		adjust_array(t_game *game);
 int		map_check(t_game *game);
+int		check_around(t_game *game, int pos_y, int pos_x);
+int		parse_player(t_game *game, int pos_y, int pos_x);
+int		is_blank_line(char *line);
+int		is_player(char c);
+int		valid_char(char c);
 
 
 

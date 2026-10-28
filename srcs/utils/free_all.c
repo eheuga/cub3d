@@ -6,18 +6,18 @@
 /*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 11:57:30 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/27 13:54:15 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/10/28 12:04:54 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void free_all(t_game *game)
+void	free_all(t_game *game)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(game->map.array && game->map.array[i])
+	while (game->map.array && game->map.array[i])
 	{
 		free(game->map.array[i]);
 		i++;
@@ -26,7 +26,7 @@ void free_all(t_game *game)
 	free(game->map.line);
 	free(game->map.gnl_line);
 	i = 0;
-	while(i < 4)
+	while (i < 4)
 	{
 		free(game->data.textures[i]);
 		if (game->data.img[i].img)

@@ -1,0 +1,11 @@
+# Build output
+object/
+*.o
+cub3D
+
+# Debug / tooling
+*.dSYM/
+vgcore.*
+.vscode/
+.idea/
+.DS_Store

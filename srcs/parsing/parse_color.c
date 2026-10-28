@@ -12,7 +12,7 @@
 
 #include "../../include/cub3d.h"
 
-int	color_loop(char *line, int *rgb)
+static int	color_loop(char *line, int *rgb)
 {
 	int	i;
 	int	j;

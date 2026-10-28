@@ -28,23 +28,7 @@ int	check_around(t_game *game, int pos_y, int pos_x)
 	return (1);
 }
 
-int	is_player(char c)
-{
-	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-		return (1);
-	return (0);
-}
-
-int	valid_char(char c)
-{
-	if (c == '0' || c == '1' || c == ' ')
-		return (1);
-	if (is_player(c))
-		return (1);
-	return (0);
-}
-
-int	map_check_loop(t_game *game, int *play)
+static int	map_check_loop(t_game *game, int *play)
 {
 	int	i;
 	int	j;
