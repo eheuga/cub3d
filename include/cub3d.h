@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emheuga <emheuga@student.42angouleme.fr    +#+  +:+       +#+        */
+/*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 11:40:59 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/11/06 13:43:21 by emheuga          ###   ########.fr       */
+/*   Updated: 2026/10/27 10:40:55 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,29 @@
 # define WE 2
 # define EA 3
 
+# define ERR_OPEN			1
+# define ERR_READ			2
+# define ERR_MALLOC			3
+
+# define ERR_ARGS			10
+# define ERR_EXTENSION		11
+
+# define ERR_UNKNOWN_ID		20
+# define ERR_DUP_TEXTURE	21
+# define ERR_DUP_COLOR		22
+# define ERR_TEXTURE_PATH	23
+# define ERR_COLOR			24
+# define ERR_MISSING_ELEM	25
+# define ERR_COLOR_RANGE	26
+# define ERR_COLOR_CHAR		27
+
+# define ERR_NO_MAP			30
+# define ERR_EMPTY_LINE		31
+# define ERR_INVALID_CHAR	32
+# define ERR_NO_PLAYER		33
+# define ERR_MANY_PLAYERS	34
+# define ERR_MAP_OPEN		35
+
 # include "get_next_line.h"
 # include "libft.h"
 # include "mlx.h"
@@ -42,6 +65,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <math.h>
+# include <errno.h>
 
 typedef struct s_ray
 {
@@ -143,28 +167,35 @@ void draw_square(int x, int y, int size, int color, t_game *game);
 void player_movement(t_game *game);
 
 float get_distance(float x,  float y, float ray_x, float ray_y);
-int close_prog(t_game *game);
-void free_all(t_game *game);
-void put_pixel(int x, int y, int color, t_game *game);
+
+// UTILS
+
+int		close_prog(t_game *game);
+void	free_all(t_game *game);
+int		error_message(int error, char *file);
 
 char **get_map(void);
 void put_pixel(int x, int y, int color, t_game *game);
+bool raycast(float px, float py, t_game *game);
 
 // PARSING
 
-int		correct_file(t_map *map, char *file);
-int		error_check(t_game *game);
-int		find_args(t_game *game, char *line);
 int		parsing(int ac, char **av, t_game *game);
-int		parse_map(t_game *game);
+int		correct_file(t_map *map, char *file);
+int		read_file(t_game *game);
+int		parse_arg_loop(t_game *game, int fd);
+int		find_args(t_game *game, char *line);
 int		parse_textures(t_game *game, char *line, int tex);
 int		parse_color(t_game *game, char *line, int tex);
-int		player_plane(t_game *game, char c);
-int		player_direction(t_game *game, char c);
-int		parse_player(t_game *game, int pos_y, int pos_x);
-int		check_around(t_game *game, int pos_y, int pos_x);
-int		valid_char(char c);
+int		parse_map_loop(t_game *game, int fd);
+int		check_line(t_game *game, char *line);
+int		adjust_array(t_game *game);
 int		map_check(t_game *game);
+int		check_around(t_game *game, int pos_y, int pos_x);
+int		parse_player(t_game *game, int pos_y, int pos_x);
+int		is_blank_line(char *line);
+int		is_player(char c);
+int		valid_char(char c);
 
 
 

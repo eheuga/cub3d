@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emheuga <emheuga@student.42angouleme.fr    +#+  +:+       +#+        */
+/*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 09:11:02 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/11/06 13:34:50 by emheuga          ###   ########.fr       */
+/*   Updated: 2026/10/28 12:34:51 by leonpouet        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_line(t_game *game, char *line)
 			if (j > max)
 				max = j;
 			if (line[i + 1] == '\n')
-				return (0); // error empty line in tab
+				return (error_message(ERR_EMPTY_LINE, NULL));
 			j = 0;
 		}
 		else
@@ -49,12 +49,12 @@ int	adjust_array(t_game *game)
 	i = 0;
 	game->map.array = ft_split(game->map.line, '\n');
 	if (!game->map.array)
-		return (0); // error malloc
+		return (error_message(ERR_MALLOC, NULL));
 	while (game->map.array[i])
 	{
 		newline = malloc (sizeof(char) * (game->map.width + 1));
 		if (!newline)
-			return (0); // error malloc
+			return (error_message(ERR_MALLOC, NULL));
 		ft_memset(newline, ' ', game->map.width);
 		ft_memcpy(newline, game->map.array[i],
 			ft_strlen(game->map.array[i]));
@@ -66,59 +66,20 @@ int	adjust_array(t_game *game)
 	return (i);
 }
 
-int	parse_loop(t_game *game, int fd)
+int	parse_map_loop(t_game *game, int fd)
 {
 	char	*tmp;
-	int		count;
-	int 	ret;
 
 	tmp = NULL;
-	count = 0;
-	game->map.line = ft_strdup("");
-	if (!game->map.line)
-		return (0); // error malloc
 	while (game->map.gnl_line)
 	{
-		if (count < 6)
-		{
-			ret = find_args(game, game->map.gnl_line);
-			if (ret == -1)
-				return (0);
-			count += ret;
-		}
-		else if (count == 6)
-		{
-			tmp = ft_strjoin(game->map.line, game->map.gnl_line);
-			if (!tmp)
-				return (0); // error malloc
-			free(game->map.line);
-			game->map.line = tmp;
-		}
+		tmp = ft_strjoin(game->map.line, game->map.gnl_line);
+		if (!tmp)
+			return (error_message(ERR_MALLOC, NULL));
+		free(game->map.line);
+		game->map.line = tmp;
 		free(game->map.gnl_line);
 		game->map.gnl_line = get_next_line(fd);
 	}
-	return (1);
-}
-
-int	parse_map(t_game *game)
-{
-	char	*tmp;
-
-	tmp = NULL;
-	game->map.gnl_line = get_next_line(game->map.fd);
-	if (!game->map.gnl_line)
-		return (0);
-	if (!parse_loop(game, game->map.fd))
-		return (0);
-	tmp = ft_strtrim(game->map.line, "\n");
-	if (!tmp)
-		return (0); // error malloc
-	free(game->map.line);
-	game->map.line = tmp;
-	if (!check_line(game, game->map.line))
-		return (0);
-	game->map.height = adjust_array(game);
-	if (!game->map.height)
-		return (0);
 	return (1);
 }
