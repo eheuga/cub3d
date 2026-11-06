@@ -21,6 +21,5 @@ void free_all(t_game *game)
 			mlx_destroy_image(game->mlx, game->data.img[i].img);
 		i++;
 	}
-	free(game->mlx);
 	return ;
 }

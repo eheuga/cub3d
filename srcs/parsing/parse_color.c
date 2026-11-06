@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
+/*   By: emheuga <emheuga@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 16:49:04 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/21 16:50:02 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/11/06 13:13:58 by emheuga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ int	parse_color(t_game *game, char *line, int tex)
 	char	*str;
 	int		check;
 
+	if (tex == 'C' && game->data.sky_color != -1)
+		return (-1); // error doublon
+	if (tex == 'F' && game->data.floor_color != -1)
+		return (-1); // error doublon
 	str = ft_strtrim(line + 1, " \n");
 	if (!str)
 		return (-1); // error malloc

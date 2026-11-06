@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
+/*   By: emheuga <emheuga@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 09:11:02 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/21 20:08:21 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/11/06 13:34:50 by emheuga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	parse_loop(t_game *game, int fd)
 {
 	char	*tmp;
 	int		count;
+	int 	ret;
 
 	tmp = NULL;
 	count = 0;
@@ -79,7 +80,12 @@ int	parse_loop(t_game *game, int fd)
 	while (game->map.gnl_line)
 	{
 		if (count < 6)
-			count += find_args(game, game->map.gnl_line);
+		{
+			ret = find_args(game, game->map.gnl_line);
+			if (ret == -1)
+				return (0);
+			count += ret;
+		}
 		else if (count == 6)
 		{
 			tmp = ft_strjoin(game->map.line, game->map.gnl_line);

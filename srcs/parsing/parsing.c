@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
+/*   By: emheuga <emheuga@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/19 14:15:12 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/22 12:25:46 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/11/06 12:42:57 by emheuga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ int parsing(int ac, char **av, t_game *game)
 	check = parse_map(game);
 	close(game->map.fd);
 	game->map.fd = -1;
+	if(!check)
+			return (0);
 	check = map_check(game);
 	if (!check)
 		return (0);
-
 	return (1);
 }

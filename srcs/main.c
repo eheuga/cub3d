@@ -11,17 +11,19 @@ float get_distance(float x,  float y, float ray_x, float ray_y)
 }
 
 
-
-
-
-bool raycast(float px, float py, t_game *game)
+void init_fail(t_game *game)
 {
-	int x = px;
-	int y = py;
-	if(game->map.array[y][x] == '1')
-		return true;
-	return false;
-
+	ft_putstr_fd("Error\n", 2);
+	if (game->image)
+		mlx_destroy_image(game->mlx, game->image);
+	free_all(game);
+	if (game->win)
+		mlx_destroy_window(game->mlx, game->win);
+	if (game->mlx)
+		mlx_destroy_display(game->mlx);
+	if (game->mlx)
+		free(game->mlx);
+	return ;
 }
 
 
@@ -41,7 +43,12 @@ int main(int ac, char **av)
 		free_all(&game);
 		return (1);
 	}
-	init_game(&game);
+
+	if (!init_game(&game))
+	{
+		init_fail(&game);
+		return (1);
+	}
 
 	game.addr = mlx_get_data_addr(game.image, &game.bpp, &game.size_line, &game.endif);
 

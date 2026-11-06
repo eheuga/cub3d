@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   find_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leonpouet <leonpouet@student.42.fr>        +#+  +:+       +#+        */
+/*   By: emheuga <emheuga@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 16:45:04 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/21 16:49:58 by leonpouet        ###   ########.fr       */
+/*   Updated: 2026/11/06 13:32:12 by emheuga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+static int	is_blank_line(char *line)
+{
+	while (*line)
+	{
+		if (*line != ' ' && *line != '\n' && *line != '\t')
+			return (0);
+		line++;
+	}
+	return (1);
+}
 
 int	find_args(t_game *game, char *line)
 {
@@ -26,5 +37,7 @@ int	find_args(t_game *game, char *line)
 		return (parse_color(game, line, 'F'));
 	else if (ft_strnstr(line, "C ", 2))
 		return (parse_color(game, line, 'C'));
-	return (0);
+	else if (is_blank_line(line))
+		return (0);
+	return (-1);
 }

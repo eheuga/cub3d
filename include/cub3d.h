@@ -6,7 +6,7 @@
 /*   By: emheuga <emheuga@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 11:40:59 by leonpouet         #+#    #+#             */
-/*   Updated: 2026/10/26 16:32:57 by emheuga          ###   ########.fr       */
+/*   Updated: 2026/11/06 13:43:21 by emheuga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,8 @@ typedef struct s_game
 }	t_game;
 
 
-void init_game(t_game *game);
-void init_textures(t_game *game);
+int init_game(t_game *game);
+int init_textures(t_game *game);
 void init_player(t_player *player);
 void init_ray(t_game *game, t_ray *ray, int i);
 
@@ -149,7 +149,6 @@ void put_pixel(int x, int y, int color, t_game *game);
 
 char **get_map(void);
 void put_pixel(int x, int y, int color, t_game *game);
-bool raycast(float px, float py, t_game *game);
 
 // PARSING
 
