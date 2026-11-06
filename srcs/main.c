@@ -26,7 +26,6 @@ void init_fail(t_game *game)
 	return ;
 }
 
-
 int main(int ac, char **av)
 {
 	t_game game;
@@ -37,9 +36,6 @@ int main(int ac, char **av)
 	game.data.sky_color = -1;
 	if (!parsing(ac, av, &game))
 	{
-		ft_putstr_fd("Error\n", 2);
-		if (game.map.fd >= 0)
-			close(game.map.fd);
 		free_all(&game);
 		return (1);
 	}
