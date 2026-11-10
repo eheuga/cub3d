@@ -1,8 +1,8 @@
 #include "cub3d.h"
 
-int init_game(t_game *game)
+int	init_game(t_game *game)
 {
-	int ret;
+	int	ret;
 
 	init_player(&game->player);
 	game->mlx = mlx_init();

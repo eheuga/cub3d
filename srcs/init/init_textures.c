@@ -1,15 +1,20 @@
 #include "cub3d.h"
 
-int init_textures(t_game *game)
+int	init_textures(t_game *game)
 {
-	int i = 0;
+	int	i;
 
-	while(i < 4)
+	i = 0;
+	while (i < 4)
 	{
-		game->data.img[i].img  = mlx_xpm_file_to_image(game->mlx, game->data.textures[i], &game->data.img[i].width, &game->data.img[i].height);
-		if(!game->data.img[i].img)
+		game->data.img[i].img = mlx_xpm_file_to_image(game->mlx,
+				game->data.textures[i], &game->data.img[i].width,
+				&game->data.img[i].height);
+		if (!game->data.img[i].img)
 			return (0);
-		game->data.img[i].buff  = mlx_get_data_addr(game->data.img[i].img, &game->data.img[i].bpp, &game->data.img[i].size_line, &game->data.img[i].endian);
+		game->data.img[i].buff = mlx_get_data_addr(game->data.img[i].img,
+				&game->data.img[i].bpp, &game->data.img[i].size_line,
+				&game->data.img[i].endian);
 		i++;
 	}
 	return (1);

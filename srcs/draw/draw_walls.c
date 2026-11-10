@@ -2,7 +2,6 @@
 
 static void draw_tex(t_game *game, t_texture tex , int i, int start_y, int end, float height, float wall_x)
 {
-
 	int tex_x = (int)(wall_x * tex.width);
 	int tex_y;
 	int index;
@@ -12,7 +11,7 @@ static void draw_tex(t_game *game, t_texture tex , int i, int start_y, int end, 
 	float step = tex.height / height;
 	float text_pos = (start_y - HEIGHT / 2 + height / 2) * step;
 
-	while(start_y < end)
+	while (start_y < end)
 	{
 		tex_y = (int)text_pos % tex.height;
 		if(tex_y < 0)
@@ -34,12 +33,11 @@ void draw_walls(t_game *game, t_ray ray, int i)
 	int end = HEIGHT /2 + height / 2;
 	float wall_x;
 
-	if(start_y < 0)
+	if (start_y < 0)
 		start_y = 0;
-	if(end >= HEIGHT)
+	if (end >= HEIGHT)
 		end = HEIGHT - 1;
-
-	if(ray.side == 1)
+	if (ray.side == 1)
 	{
 		wall_x = game->player.x + ray.wall_dist * ray.dir_x;
 		wall_x -= floor(wall_x);
